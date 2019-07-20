@@ -1,0 +1,8 @@
+/vendor
+node_modules
+migrations_metadata.csv
+.idea/
+package-lock.json
+.vscode
+yarn.lock
+mix-manifest.json

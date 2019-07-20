@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,35 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+/*
+* Snippet for a quick route reference
+*/
+Route::get('/', function (Router $router) {
+    return collect($router->getRoutes()->getRoutesByMethod()["GET"])->map(function($value, $key) {
+        return url($key);
+    })->values();   
 });
+
+Route::resource('companies', 'CompanyAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+Route::resource('jobPositions', 'JobPositionAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+Route::resource('jobAdverts', 'JobAdvertAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+Route::resource('emailTemplates', 'EmailTemplateAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+Route::resource('placeholderInTemplates', 'PlaceholderInTemplateAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+Route::resource('users', 'UserAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
