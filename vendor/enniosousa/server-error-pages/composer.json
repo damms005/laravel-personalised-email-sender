@@ -1,0 +1,30 @@
+{
+    "name": "enniosousa/server-error-pages",
+    "description": "Laravel server-side error pages",
+    "keywords": ["error pages", "laravel"],
+    "type": "package",
+    "version": "v1.0.5",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ennio Sousa",
+            "email": "ennio@enniosousa.com.br"
+        }
+    ],
+    "require": {
+        "laravel/framework": "5.5.*|5.6.*|5.7.*|5.8.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "EnnioSousa\\ServerErrorPages\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "EnnioSousa\\ServerErrorPages\\ServerErrorPagesServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
