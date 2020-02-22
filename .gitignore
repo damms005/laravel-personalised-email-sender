@@ -1,0 +1,15 @@
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+/vue-cli-app/npm-debug.log*
+/vue-cli-app/yarn-debug.log*
+/vue-cli-app/yarn-error.log*
+
+/vue-cli-app/vendor/
+/vue-cli-app/.vscode/.DS_Store
+/vue-cli-app/node_modules
+
+# Editor directories and files
+.vscode

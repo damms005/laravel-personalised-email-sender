@@ -14,11 +14,15 @@ use BadMethodCallException;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Carbon\CarbonTimeZone;
+use Carbon\Exceptions\BadUnitException;
 use Closure;
+use DateInterval;
+use DatePeriod;
 use DateTime;
 use DateTimeInterface;
 use InvalidArgumentException;
 use ReflectionException;
+use RuntimeException;
 
 /**
  * A simple API extension for DateTime.
@@ -102,35 +106,35 @@ use ReflectionException;
  * @method        bool           isThursday()                                                                        Checks if the instance day is thursday.
  * @method        bool           isFriday()                                                                          Checks if the instance day is friday.
  * @method        bool           isSaturday()                                                                        Checks if the instance day is saturday.
- * @method        bool           isSameYear(\DateTimeInterface $date = null)                                         Checks if the given date is in the same year as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameYear(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)              Checks if the given date is in the same year as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentYear()                                                                     Checks if the instance is in the same year as the current moment.
  * @method        bool           isNextYear()                                                                        Checks if the instance is in the same year as the current moment next year.
  * @method        bool           isLastYear()                                                                        Checks if the instance is in the same year as the current moment last year.
- * @method        bool           isSameWeek(\DateTimeInterface $date = null)                                         Checks if the given date is in the same week as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameWeek(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)              Checks if the given date is in the same week as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentWeek()                                                                     Checks if the instance is in the same week as the current moment.
  * @method        bool           isNextWeek()                                                                        Checks if the instance is in the same week as the current moment next week.
  * @method        bool           isLastWeek()                                                                        Checks if the instance is in the same week as the current moment last week.
- * @method        bool           isSameDay(\DateTimeInterface $date = null)                                          Checks if the given date is in the same day as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameDay(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)               Checks if the given date is in the same day as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentDay()                                                                      Checks if the instance is in the same day as the current moment.
  * @method        bool           isNextDay()                                                                         Checks if the instance is in the same day as the current moment next day.
  * @method        bool           isLastDay()                                                                         Checks if the instance is in the same day as the current moment last day.
- * @method        bool           isSameHour(\DateTimeInterface $date = null)                                         Checks if the given date is in the same hour as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameHour(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)              Checks if the given date is in the same hour as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentHour()                                                                     Checks if the instance is in the same hour as the current moment.
  * @method        bool           isNextHour()                                                                        Checks if the instance is in the same hour as the current moment next hour.
  * @method        bool           isLastHour()                                                                        Checks if the instance is in the same hour as the current moment last hour.
- * @method        bool           isSameMinute(\DateTimeInterface $date = null)                                       Checks if the given date is in the same minute as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameMinute(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)            Checks if the given date is in the same minute as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentMinute()                                                                   Checks if the instance is in the same minute as the current moment.
  * @method        bool           isNextMinute()                                                                      Checks if the instance is in the same minute as the current moment next minute.
  * @method        bool           isLastMinute()                                                                      Checks if the instance is in the same minute as the current moment last minute.
- * @method        bool           isSameSecond(\DateTimeInterface $date = null)                                       Checks if the given date is in the same second as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameSecond(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)            Checks if the given date is in the same second as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentSecond()                                                                   Checks if the instance is in the same second as the current moment.
  * @method        bool           isNextSecond()                                                                      Checks if the instance is in the same second as the current moment next second.
  * @method        bool           isLastSecond()                                                                      Checks if the instance is in the same second as the current moment last second.
- * @method        bool           isSameMicro(\DateTimeInterface $date = null)                                        Checks if the given date is in the same microsecond as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameMicro(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)             Checks if the given date is in the same microsecond as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentMicro()                                                                    Checks if the instance is in the same microsecond as the current moment.
  * @method        bool           isNextMicro()                                                                       Checks if the instance is in the same microsecond as the current moment next microsecond.
  * @method        bool           isLastMicro()                                                                       Checks if the instance is in the same microsecond as the current moment last microsecond.
- * @method        bool           isSameMicrosecond(\DateTimeInterface $date = null)                                  Checks if the given date is in the same microsecond as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameMicrosecond(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)       Checks if the given date is in the same microsecond as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentMicrosecond()                                                              Checks if the instance is in the same microsecond as the current moment.
  * @method        bool           isNextMicrosecond()                                                                 Checks if the instance is in the same microsecond as the current moment next microsecond.
  * @method        bool           isLastMicrosecond()                                                                 Checks if the instance is in the same microsecond as the current moment last microsecond.
@@ -140,15 +144,15 @@ use ReflectionException;
  * @method        bool           isCurrentQuarter()                                                                  Checks if the instance is in the same quarter as the current moment.
  * @method        bool           isNextQuarter()                                                                     Checks if the instance is in the same quarter as the current moment next quarter.
  * @method        bool           isLastQuarter()                                                                     Checks if the instance is in the same quarter as the current moment last quarter.
- * @method        bool           isSameDecade(\DateTimeInterface $date = null)                                       Checks if the given date is in the same decade as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameDecade(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)            Checks if the given date is in the same decade as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentDecade()                                                                   Checks if the instance is in the same decade as the current moment.
  * @method        bool           isNextDecade()                                                                      Checks if the instance is in the same decade as the current moment next decade.
  * @method        bool           isLastDecade()                                                                      Checks if the instance is in the same decade as the current moment last decade.
- * @method        bool           isSameCentury(\DateTimeInterface $date = null)                                      Checks if the given date is in the same century as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameCentury(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)           Checks if the given date is in the same century as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentCentury()                                                                  Checks if the instance is in the same century as the current moment.
  * @method        bool           isNextCentury()                                                                     Checks if the instance is in the same century as the current moment next century.
  * @method        bool           isLastCentury()                                                                     Checks if the instance is in the same century as the current moment last century.
- * @method        bool           isSameMillennium(\DateTimeInterface $date = null)                                   Checks if the given date is in the same millennium as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isSameMillennium(\Carbon\Carbon|\DateTimeInterface|string|null $date = null)        Checks if the given date is in the same millennium as the instance. If null passed, compare to now (with the same timezone).
  * @method        bool           isCurrentMillennium()                                                               Checks if the instance is in the same millennium as the current moment.
  * @method        bool           isNextMillennium()                                                                  Checks if the instance is in the same millennium as the current moment next millennium.
  * @method        bool           isLastMillennium()                                                                  Checks if the instance is in the same millennium as the current moment last millennium.
@@ -625,6 +629,7 @@ trait Date
     {
         /** @var CarbonTimeZone $timezone */
         $timezone = CarbonTimeZone::instance($object);
+
         if ($timezone && is_int($originalObject ?: $object)) {
             $timezone = $timezone->toRegionTimeZone($this);
         }
@@ -743,6 +748,27 @@ trait Date
         static::expectDateTime($date, ['null', 'string']);
 
         return $date instanceof self ? $date : static::instance($date);
+    }
+
+    /**
+     * Return the Carbon instance passed through, a now instance in the same timezone
+     * if null given or parse the input if string given.
+     *
+     * @param \Carbon\Carbon|\Carbon\CarbonPeriod|\Carbon\CarbonInterval|\DateInterval|\DatePeriod|\DateTimeInterface|string|null $date
+     *
+     * @return static
+     */
+    public function carbonize($date = null)
+    {
+        if ($date instanceof DateInterval) {
+            return $this->copy()->add($date);
+        }
+
+        if ($date instanceof DatePeriod || $date instanceof CarbonPeriod) {
+            $date = $date->getStartDate();
+        }
+
+        return $this->resolveCarbon($date);
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -1050,7 +1076,7 @@ trait Date
     public function set($name, $value = null)
     {
         if ($this->isImmutable()) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 '%s class is immutable.',
                 static::class
             ));
@@ -1367,6 +1393,38 @@ trait Date
     }
 
     /**
+     * Set the date with gregorian year, month and day numbers.
+     *
+     * @see https://php.net/manual/en/datetime.setdate.php
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $day
+     *
+     * @return static
+     */
+    public function setDate($year, $month, $day)
+    {
+        return parent::setDate((int) $year, (int) $month, (int) $day);
+    }
+
+    /**
+     * Set a date according to the ISO 8601 standard - using weeks and day offsets rather than specific dates.
+     *
+     * @see https://php.net/manual/en/datetime.setisodate.php
+     *
+     * @param int $year
+     * @param int $week
+     * @param int $day
+     *
+     * @return static
+     */
+    public function setISODate($year, $week, $day = 1)
+    {
+        return parent::setISODate((int) $year, (int) $week, (int) $day);
+    }
+
+    /**
      * Set the date and time all together.
      *
      * @param int $year
@@ -1381,7 +1439,38 @@ trait Date
      */
     public function setDateTime($year, $month, $day, $hour, $minute, $second = 0, $microseconds = 0)
     {
-        return $this->setDate((int) $year, (int) $month, (int) $day)->setTime((int) $hour, (int) $minute, (int) $second, (int) $microseconds);
+        return $this->setDate($year, $month, $day)->setTime((int) $hour, (int) $minute, (int) $second, (int) $microseconds);
+    }
+
+    /**
+     * Resets the current time of the DateTime object to a different time.
+     *
+     * @see https://php.net/manual/en/datetime.settime.php
+     *
+     * @param int $hour
+     * @param int $minute
+     * @param int $second
+     * @param int $microseconds
+     *
+     * @return static
+     */
+    public function setTime($hour, $minute, $second = 0, $microseconds = 0)
+    {
+        return parent::setTime((int) $hour, (int) $minute, (int) $second, (int) $microseconds);
+    }
+
+    /**
+     * Sets the date and time based on an Unix timestamp.
+     *
+     * @see https://php.net/manual/en/datetime.settimestamp.php
+     *
+     * @param int $unixtimestamp
+     *
+     * @return static
+     */
+    public function setTimestamp($unixtimestamp)
+    {
+        return parent::setTimestamp((int) $unixtimestamp);
     }
 
     /**
@@ -1923,7 +2012,7 @@ trait Date
     }
 
     /**
-     * Returns the alternative number if available in the current locale.
+     * Returns the alternative number for a given date property if available in the current locale.
      *
      * @param string $key date property
      *
@@ -1931,46 +2020,7 @@ trait Date
      */
     public function getAltNumber(string $key): string
     {
-        $number = strlen($key) > 1 ? $this->$key : $this->rawFormat('h');
-        $translateKey = "alt_numbers.$number";
-        $symbol = $this->translate($translateKey);
-
-        if ($symbol !== $translateKey) {
-            return $symbol;
-        }
-
-        if ($number > 99 && $this->translate('alt_numbers.99') !== 'alt_numbers.99') {
-            $start = '';
-            foreach ([10000, 1000, 100] as $exp) {
-                $key = "alt_numbers_pow.$exp";
-                if ($number >= $exp && $number < $exp * 10 && ($pow = $this->translate($key)) !== $key) {
-                    $unit = floor($number / $exp);
-                    $number -= $unit * $exp;
-                    $start .= ($unit > 1 ? $this->translate("alt_numbers.$unit") : '').$pow;
-                }
-            }
-            $result = '';
-            while ($number) {
-                $chunk = $number % 100;
-                $result = $this->translate("alt_numbers.$chunk").$result;
-                $number = floor($number / 100);
-            }
-
-            return "$start$result";
-        }
-
-        if ($number > 9 && $this->translate('alt_numbers.9') !== 'alt_numbers.9') {
-            $result = '';
-            while ($number) {
-                $chunk = $number % 10;
-                $result = $this->translate("alt_numbers.$chunk").$result;
-                $number = floor($number / 10);
-            }
-
-            return $result;
-        }
-
-        return $number;
+        return $this->translateNumber(strlen($key) > 1 ? $this->$key : $this->rawFormat('h'));
     }
 
     /**
@@ -2233,11 +2283,15 @@ trait Date
 
     protected static function executeStaticCallable($macro, ...$parameters)
     {
-        if ($macro instanceof Closure) {
-            return call_user_func_array(Closure::bind($macro, null, get_called_class()), $parameters);
-        }
+        return static::bindMacroContext(null, function () use (&$macro, &$parameters) {
+            if ($macro instanceof Closure) {
+                $boundMacro = @Closure::bind($macro, null, static::class);
 
-        return call_user_func_array($macro, $parameters);
+                return call_user_func_array($boundMacro ?: $macro, $parameters);
+            }
+
+            return call_user_func_array($macro, $parameters);
+        });
     }
 
     /**
@@ -2352,7 +2406,9 @@ trait Date
     protected function executeCallable($macro, ...$parameters)
     {
         if ($macro instanceof Closure) {
-            return call_user_func_array($macro->bindTo($this, static::class), $parameters);
+            $boundMacro = @$macro->bindTo($this, static::class) ?: @$macro->bindTo(null, static::class);
+
+            return call_user_func_array($boundMacro ?: $macro, $parameters);
         }
 
         return call_user_func_array($macro, $parameters);
@@ -2500,7 +2556,7 @@ trait Date
         if ($sixFirstLetters === 'isSame') {
             try {
                 return $this->isSameUnit(strtolower(substr($unit, 6)), ...$parameters);
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadUnitException $exception) {
                 // Try next
             }
         }
@@ -2508,7 +2564,7 @@ trait Date
         if (substr($unit, 0, 9) === 'isCurrent') {
             try {
                 return $this->isCurrentUnit(strtolower(substr($unit, 9)));
-            } catch (InvalidArgumentException | BadMethodCallException $exception) {
+            } catch (BadUnitException | BadMethodCallException $exception) {
                 // Try macros
             }
         }
@@ -2523,23 +2579,26 @@ trait Date
             }
         }
 
-        if (!static::hasMacro($method)) {
-            foreach ([$this->localGenericMacros ?: [], static::getGenericMacros()] as $list) {
-                foreach ($list as $callback) {
-                    try {
-                        return $this->executeCallable($callback, $method, ...$parameters);
-                    } catch (BadMethodCallException $exception) {
-                        continue;
+        return static::bindMacroContext($this, function () use (&$method, &$parameters) {
+            if (!static::hasMacro($method)) {
+                foreach ([$this->localGenericMacros ?: [], static::getGenericMacros()] as $list) {
+                    foreach ($list as $callback) {
+                        try {
+                            return $this->executeCallable($callback, $method, ...$parameters);
+                        } catch (BadMethodCallException $exception) {
+                            continue;
+                        }
                     }
                 }
-            }
-            if ($this->localStrictModeEnabled ?? static::isStrictModeEnabled()) {
-                throw new BadMethodCallException("Method $method does not exist.");
+
+                if ($this->localStrictModeEnabled ?? static::isStrictModeEnabled()) {
+                    throw new BadMethodCallException("Method $method does not exist.");
+                }
+
+                return null;
             }
 
-            return null;
-        }
-
-        return $this->executeCallable(($this->localMacros ?? [])[$method] ?? static::$globalMacros[$method], ...$parameters);
+            return $this->executeCallable(($this->localMacros ?? [])[$method] ?? static::$globalMacros[$method], ...$parameters);
+        });
     }
 }

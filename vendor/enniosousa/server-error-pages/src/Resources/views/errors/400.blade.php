@@ -1,1 +1,0 @@
-@include('server-error-pages::template', compact($exception))
