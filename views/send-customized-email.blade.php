@@ -4,7 +4,6 @@ Send Customized Emails
 	<vue-templater></vue-templater>
 </div>
 
-<link rel="stylesheet" href="{{asset('css/vendor/app.css')}}">
-<link rel="stylesheet" href="{{asset('css/tailwind-v1.css')}}">
+<link rel="stylesheet" href="{{asset('vendor/laravue-mailer/css/app.css')}}">
 
-<script src="{{asset('js/vendor/app.js')}}"></script>
+<script src="{{asset('vendor/laravue-mailer/js/app.js')}}"></script>

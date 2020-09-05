@@ -28,7 +28,7 @@ class LaravueMailerServiceProvider extends ServiceProvider
 
 		$this->publishes([
 			__DIR__ . '/../config/laravue-mailer.php' => config_path('laravue-mailer.php'),
-			__DIR__ . '/vue-cli-app/dist/assets//' => public_path('vendor/laravue-mailer/'),
+			__DIR__ . '/../vue-cli-app/dist/assets/' => public_path('vendor/laravue-mailer/'),
 		], 'laravue-mailer');
 	}
 }

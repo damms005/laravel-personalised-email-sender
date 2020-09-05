@@ -1,15 +1,20 @@
-# local env files
-.env.local
-.env.*.local
+vendor/
+node_modules/
+npm-debug.log
 
-# Log files
-/vue-cli-app/npm-debug.log*
-/vue-cli-app/yarn-debug.log*
-/vue-cli-app/yarn-error.log*
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
 
-/vue-cli-app/vendor/
-/vue-cli-app/.vscode/.DS_Store
-/vue-cli-app/node_modules
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+storage/*.key
+.env.*.php
+.env.php
+.env
+Homestead.yaml
+Homestead.json
 
-# Editor directories and files
-.vscode
+# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
+.rocketeer/
