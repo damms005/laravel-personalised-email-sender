@@ -21,3 +21,5 @@ Homestead.json
 
 #Remove folder for the view handler. The folder already contains its own git repo
 vue-cli-app
+
+.vscode
