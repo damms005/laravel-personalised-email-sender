@@ -1,5 +1,5 @@
 # laravue-mailer
-Quickly send customized emails from Excel or CSV files: Vue powered! (an implementation of https://github.com/damms005/laravue-mailer-js)
+Quickly send customized emails from Excel or CSV files: Vue powered! (an implementation of [laravue-mailer-js](https://github.com/damms005/laravue-mailer-js))
 
 This is simply a sample Laravel project to demonstrate how [laravue-mailer-js](https://github.com/damms005/laravue-mailer-js) can be implemented.
 
