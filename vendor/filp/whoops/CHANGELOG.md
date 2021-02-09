@@ -1,3 +1,44 @@
+# 2.9.2
+
+* Fix copy button styles
+
+# 2.9.1
+
+* Fix xdebug function crash on PHP 8
+
+# 2.9.0
+
+* JsonResponseHandler includes the exception code
+
+# 2.8.0
+
+* Support PHP 8
+
+# 2.7.3
+
+* PrettyPageHandler functionality to hide superglobal keys has a clearer name hideSuperglobalKey
+
+# 2.7.2
+
+* PrettyPageHandler now accepts custom js files
+* PrettyPageHandler templateHelper is now accessible through inheritance
+
+# 2.7.1
+
+* Fix a PHP warning in some cases with anonymous classes.
+
+# 2.7.0
+
+* removeFirstHandler and removeLastHandler.
+
+# 2.6.0
+
+* Fix 2.4.0 pushHandler changing the order of handlers.
+
+# 2.5.1
+
+* Fix error messaging in a rare case.
+
 # 2.5.0
 
 * Automatically configure xdebug if available.

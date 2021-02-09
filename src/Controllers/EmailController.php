@@ -28,6 +28,7 @@ class EmailController extends Controller
 		$from = env('MAIL_USERNAME');
 
 		SendMailJob::dispatch(new MessageApplicant($user, $from, $subject, $message));
+
 		return response('Successfully sent request for mail delivery', 200);
 	}
 }

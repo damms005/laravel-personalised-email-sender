@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,4 +13,4 @@
 |
  */
 
-Route::get('laravue-mailer', [Damms005\LaravueMailer\Controllers\LaravueMailerController::class, "index"]);
+Route::get('/laravue-mailer', [Damms005\LaravueMailer\Controllers\LaravueMailerController::class, "index"]);
