@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/laravue-mailer', [Damms005\LaravueMailer\Controllers\LaravueMailerController::class, "index"]);
+Route::get('/laravel-personalised-email-sender', [Damms005\LaravueMailer\Controllers\LaravueMailerController::class, "index"]);

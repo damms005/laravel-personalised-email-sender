@@ -1,5 +1,5 @@
 {
-	"name": "damms005/laravue-mailer",
+	"name": "damms005/laravel-personalised-email-sender",
 	"description": "Quickly send customized emails from Excel or CSV files: Vue powered!",
 	"authors": [
 		{

@@ -11,6 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+mix.js('../../javascript/vue-email-personaliser/dist/vue-email-personaliser.js', './js/app.js')
+    .setPublicPath('./publishable')
     .version();

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendMailJob;
-use App\Mail\MessageApplicant;
+use Illuminate\Routing\Controller;
 
 class EmailController extends Controller
 {
